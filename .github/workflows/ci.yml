@@ -51,6 +51,8 @@ jobs:
           #  folder: macos
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - name: Generate CMake Files
         # NOTES:
         # -Werror=dev is used to validate CMakeLists.txt for any faults.
