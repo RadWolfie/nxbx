@@ -39,6 +39,7 @@ jobs:
             folder: win
           - cmake-generator: -G "Unix Makefiles"
             platform: Linux
+            install-cmd: sudo apt-get -y update && sudo apt-get -y install libxrandr
             os: ubuntu-latest
             arch: x64
             cmake-build-param: -j $(nproc --all)
@@ -50,6 +51,9 @@ jobs:
           #  cmake-build-param: -j $(sysctl -n hw.ncpu)
           #  folder: macos
     steps:
+      - name: Install Dependencies
+        if: matrix.install-cmd != ''
+        run: ${{ matrix.install-cmd }}
       - uses: actions/checkout@v4
         with:
           submodules: recursive
