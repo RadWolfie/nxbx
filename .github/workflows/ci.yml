@@ -39,7 +39,7 @@ jobs:
             folder: win
           - cmake-generator: -G "Unix Makefiles"
             platform: Linux
-            install-cmd: sudo apt-get -y update && sudo apt-get -y install libxrandr-dev libxinerama-dev
+            install-cmd: sudo apt-get -y update && sudo apt-get -y install libxrandr-dev libxinerama-dev libxcursor-dev
             os: ubuntu-latest
             arch: x64
             cmake-build-param: -j $(nproc --all)
