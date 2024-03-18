@@ -1,12 +1,6 @@
 name: GitHub CI
 
 on:
-  workflow_call:
-    outputs:
-      do-release:
-        value: ${{ jobs.semver.outputs.do-build == 'true' && jobs.semver.outputs.do-release == 'true' }}
-      ver-cur:
-        value: ${{ jobs.semver.outputs.ver-cur }}
   workflow_dispatch:
   push:
     paths-ignore:
@@ -27,7 +21,6 @@ jobs:
   build:
     name: ${{ matrix.platform }} (${{ matrix.arch }}, ${{ matrix.configuration }})
     runs-on: ${{ matrix.os }}
-    if: needs.semver.outputs.do-build == 'true'
     strategy:
       fail-fast: false
       matrix:
@@ -38,12 +31,6 @@ jobs:
           #- -G Xcode
         configuration: [Debug, Release]
         include:
-          - cmake-generator: -A Win32
-            platform: Windows
-            os: windows-latest
-            arch: x86
-            cmake-build-param: -j $env:NUMBER_OF_PROCESSORS
-            folder: win
           - cmake-generator: -A x64
             platform: Windows
             os: windows-latest
@@ -63,7 +50,7 @@ jobs:
           #  cmake-build-param: -j $(sysctl -n hw.ncpu)
           #  folder: macos
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Generate CMake Files
         # NOTES:
         # -Werror=dev is used to validate CMakeLists.txt for any faults.
